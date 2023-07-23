@@ -17,17 +17,9 @@
 
 ---
 
-name: Semantic Release CI
 
-on:
-  pull_request:
-    branches:
-    - "*"
-  push:
-    branches:
-    - "*"
-    tags:
-    - "*"
+name: Semantic Release CI
+on: workflow_call
 
 permissions:
   contents: write
