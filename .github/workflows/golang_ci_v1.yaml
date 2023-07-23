@@ -49,8 +49,7 @@ jobs:
   unit-test:
     name: unit-test
     runs-on: ubuntu-latest
-    if: "!contains(vars.CI_SKIP, '/unit-test/') && (needs.build.result == 'success' || needs.build.result == 'skipped')"
-    needs: build
+    if: "!contains(vars.CI_SKIP, '/unit-test/')"
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-go@v4
@@ -65,8 +64,7 @@ jobs:
   lint:
     name: lint
     runs-on: ubuntu-latest
-    if: "!contains(vars.CI_SKIP, '/lint/') && (needs.build.result == 'success' || needs.build.result == 'skipped')"
-    needs: build
+    if: "!contains(vars.CI_SKIP, '/lint/')"
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-go@v4
@@ -83,8 +81,7 @@ jobs:
   vet:
     name: vet
     runs-on: ubuntu-latest
-    if: "!contains(vars.CI_SKIP, '/vet/') && (needs.build.result == 'success' || needs.build.result == 'skipped')"
-    needs: build
+    if: "!contains(vars.CI_SKIP, '/vet/')"
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-go@v4

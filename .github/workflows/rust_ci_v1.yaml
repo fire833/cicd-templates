@@ -41,8 +41,7 @@ jobs:
   unit-test:
     name: unit-test
     runs-on: ubuntu-latest
-    if: "!contains(vars.CI_SKIP, '/unit-test/') && (needs.build.result == 'success' || needs.build.result == 'skipped')"
-    needs: build
+    if: "!contains(vars.CI_SKIP, '/unit-test/')"
     steps:
     - uses: actions/checkout@v3
     - name: Set Directory
