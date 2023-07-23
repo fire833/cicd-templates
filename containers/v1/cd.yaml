@@ -33,6 +33,10 @@ permissions:
   packages: write
   contents: read
 
+env:
+  DOCKERFILE_PATH: Dockerfile
+  DOCKERFILE_CONTEXT: .
+
 jobs:
   build-push:
     name: build
@@ -43,6 +47,7 @@ jobs:
       uses: redhat-actions/buildah-build@v2.12
       with:
         containerfiles: ${{ env.DOCKERFILE_PATH }}
+        context: ${{ env.DOCKERFILE_CONTEXT }}
         image: ghcr.io/fire833/${{ env.APP_NAME }}
         tags: latest v${{ github.ref_name }}
         layers: true
