@@ -17,7 +17,7 @@
 
 ---
 
-name: Rust CI
+name: Golang CI
 
 on:
   pull_request:
@@ -29,12 +29,41 @@ on:
     tags:
     - "*"
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build Binary
+      run: mage build${{ env.APP_NAME }}
+
   test:
     name: test
     runs-on: ubuntu-latest
+    needs: build
     steps:
-    - name: Run unit tests
-      run: cargo test
+    - uses: actions/checkout@v3
+    - name: Run tests
+      run: if [ "$CGO_ENABLED" == "1" ]; then go test -v -cover -race ./...; else go test -v -cover ./...; fi
+
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v3
+    - name: Lint
+      run: test -z "$(gofumpt -d -e $(git ls-files '*.go'))"
+      
+  vet:
+    name: vet
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v3
+    - name: Vet
+      run: go vet -v ./...
