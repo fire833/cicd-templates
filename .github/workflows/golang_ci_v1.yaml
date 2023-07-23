@@ -18,7 +18,24 @@
 ---
 
 name: Golang CI
-on: workflow_call
+on: 
+  workflow_call:
+    inputs:
+      APP_NAME:
+        description: Specify the name of your application within the repo to run CI against.
+        default: ""
+        required: false
+        type: string
+      APP_DIR:
+        description: Specify the relative directory where your application lives in the repository.
+        default: ""
+        required: false
+        type: string
+      CI_SKIP:
+        description: Specify stages of CI to skip using /<stage>/ syntax.
+        default: ""
+        required: false
+        type: string
 
 permissions:
   contents: read
