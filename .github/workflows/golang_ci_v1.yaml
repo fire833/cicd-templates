@@ -23,55 +23,52 @@ on: workflow_call
 permissions:
   contents: read
 
-env:
-  CI_SKIP: ""
-
 jobs:
   build:
     name: build
     runs-on: ubuntu-latest
-    if: "!contains(vars.CI_SKIP, '/build/')"
+    if: "!contains(inputs.CI_SKIP, '/build/')"
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-go@v4
       with:
         go-version: stable
     - name: Set Directory
-      if: ${{ env.APP_DIR != '' }}
-      run: cd ${{ env.APP_DIR }}
+      if: ${{ inputs.APP_DIR != '' }}
+      run: cd ${{ inputs.APP_DIR }}
     - name: Build Binary
       uses: magefile/mage-action@v2
       with:
         version: latest
-        args: build${{ env.APP_NAME }}
+        args: build${{ inputs.APP_NAME }}
 
   unit-test:
     name: unit-test
     runs-on: ubuntu-latest
-    if: "!contains(vars.CI_SKIP, '/unit-test/')"
+    if: "!contains(inputs.CI_SKIP, '/unit-test/')"
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-go@v4
       with:
         go-version: stable
     - name: Set Directory
-      if: ${{ env.APP_DIR != '' }}
-      run: cd ${{ env.APP_DIR }}
+      if: ${{ inputs.APP_DIR != '' }}
+      run: cd ${{ inputs.APP_DIR }}
     - name: Run tests
       run: if [ "$CGO_ENABLED" == "1" ]; then go test -v -cover -race ./...; else go test -v -cover ./...; fi
 
   lint:
     name: lint
     runs-on: ubuntu-latest
-    if: "!contains(vars.CI_SKIP, '/lint/')"
+    if: "!contains(inputs.CI_SKIP, '/lint/')"
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-go@v4
       with:
         go-version: stable
     - name: Set Directory
-      if: ${{ env.APP_DIR != '' }}
-      run: cd ${{ env.APP_DIR }}
+      if: ${{ inputs.APP_DIR != '' }}
+      run: cd ${{ inputs.APP_DIR }}
     - name: Install linter
       run: go install mvdan.cc/gofumpt@latest
     - name: Lint
@@ -80,14 +77,14 @@ jobs:
   vet:
     name: vet
     runs-on: ubuntu-latest
-    if: "!contains(vars.CI_SKIP, '/vet/')"
+    if: "!contains(inputs.CI_SKIP, '/vet/')"
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-go@v4
       with:
         go-version: stable
     - name: Set Directory
-      if: ${{ env.APP_DIR != '' }}
-      run: cd ${{ env.APP_DIR }}
+      if: ${{ inputs.APP_DIR != '' }}
+      run: cd ${{ inputs.APP_DIR }}
     - name: Vet
       run: go vet -v ./...

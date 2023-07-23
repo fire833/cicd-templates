@@ -23,40 +23,35 @@ on: workflow_call
 permissions:
   contents: read
 
-env:
-  CI_SKIP: ""
-
 jobs:
   build:
     name: build
     runs-on: ubuntu-latest
-    if: "!contains(vars.CI_SKIP, '/build/')"
+    if: "!contains(inputs.CI_SKIP, '/build/')"
     steps:
     - uses: actions/checkout@v3
     - uses: actions/cache@v3
       with:
         path: target
         key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-rust-
+        restore-keys: ${{ runner.os }}-rust-
     - name: Set Directory
-      if: ${{ env.APP_DIR != '' }}
-      run: cd ${{ env.APP_DIR }}
+      if: ${{ inputs.APP_DIR != '' }}
+      run: cd ${{ inputs.APP_DIR }}
     - run: cargo run
 
   unit-test:
     name: unit-test
     runs-on: ubuntu-latest
-    if: "!contains(vars.CI_SKIP, '/unit-test/')"
+    if: "!contains(inputs.CI_SKIP, '/unit-test/')"
     steps:
     - uses: actions/checkout@v3
     - uses: actions/cache@v3
       with:
         path: target
         key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-rust-
+        restore-keys: ${{ runner.os }}-rust-
     - name: Set Directory
-      if: ${{ env.APP_DIR != '' }}
-      run: cd ${{ env.APP_DIR }}
+      if: ${{ inputs.APP_DIR != '' }}
+      run: cd ${{ inputs.APP_DIR }}
     - run: cargo test

@@ -24,10 +24,6 @@ permissions:
   packages: write
   contents: read
 
-env:
-  DOCKERFILE_PATH: Dockerfile
-  DOCKERFILE_CONTEXT: .
-
 jobs:
   build-push:
     name: build
@@ -37,16 +33,16 @@ jobs:
     - name: Build Image
       uses: redhat-actions/buildah-build@v2.12
       with:
-        containerfiles: ${{ env.DOCKERFILE_PATH }}
-        context: ${{ env.DOCKERFILE_CONTEXT }}
-        image: ghcr.io/fire833/${{ env.APP_NAME }}
+        containerfiles: ${{ inputs.DOCKERFILE_PATH }}
+        context: ${{ inputs.DOCKERFILE_CONTEXT }}
+        image: ghcr.io/fire833/${{ inputs.APP_NAME }}
         tags: latest v${{ github.ref_name }}
         layers: true
     - name: Push Image
       uses: redhat-actions/push-to-registry@v2.7
       with:
         registry: ghcr.io
-        image: ghcr.io/fire833/${{ env.APP_NAME }}
+        image: ghcr.io/fire833/${{ inputs.APP_NAME }}
         tags: latest v${{ github.ref_name }}
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
