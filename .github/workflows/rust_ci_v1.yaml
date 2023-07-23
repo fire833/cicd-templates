@@ -23,10 +23,14 @@ on: workflow_call
 permissions:
   contents: read
 
+env:
+  CI_SKIP: ""
+
 jobs:
   build:
     name: build
     runs-on: ubuntu-latest
+    if: "!contains(vars.CI_SKIP, '/build/')"
     steps:
     - uses: actions/checkout@v3
     - name: Set Directory
@@ -37,6 +41,7 @@ jobs:
   unit-test:
     name: unit-test
     runs-on: ubuntu-latest
+    if: "!contains(vars.CI_SKIP, '/unit-test/') && (needs.build.result == 'success' || needs.build.result == 'skipped')"
     needs: build
     steps:
     - uses: actions/checkout@v3
