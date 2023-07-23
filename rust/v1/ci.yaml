@@ -38,12 +38,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Set Directory
+      if: ${{ env.APP_DIR != '' }}
+      run: cd ${{ env.APP_DIR }}
     - run: cargo run
 
-  test:
-    name: test
+  unit-test:
+    name: unit-test
     runs-on: ubuntu-latest
     needs: build
     steps:
     - uses: actions/checkout@v3
+    - name: Set Directory
+      if: ${{ env.APP_DIR != '' }}
+      run: cd ${{ env.APP_DIR }}
     - run: cargo test
