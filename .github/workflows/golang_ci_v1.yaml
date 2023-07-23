@@ -36,15 +36,14 @@ jobs:
     - uses: actions/setup-go@v4
       with:
         go-version: stable
-    - uses: magefile/mage-action@v2
-      with:
-        version: latest
-        args: build
     - name: Set Directory
       if: ${{ env.APP_DIR != '' }}
       run: cd ${{ env.APP_DIR }}
     - name: Build Binary
-      run: mage build${{ env.APP_NAME }}
+      uses: magefile/mage-action@v2
+      with:
+        version: latest
+        args: build${{ env.APP_NAME }}
 
   unit-test:
     name: unit-test
