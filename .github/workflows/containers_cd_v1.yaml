@@ -18,7 +18,24 @@
 ---
 
 name: Containers CD
-on: workflow_call
+on: 
+  workflow_call:
+    inputs:
+      APP_NAME:
+        description: Specify the name of your application within the repo to run CI against.
+        default: ""
+        required: false
+        type: string
+      DOCKERFILE_PATH:
+        description: Specify the path to the Dockerfile to build and publish.
+        default: Dockerfile
+        required: false
+        type: string
+      DOCKERFILE_CONTEXT:
+        description: Specify the context for the Dockerfile to build and publish.
+        default: .
+        required: false
+        type: string
 
 permissions:
   packages: write
