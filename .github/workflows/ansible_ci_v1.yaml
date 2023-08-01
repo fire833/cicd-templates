@@ -1,0 +1,48 @@
+
+# Copyright (C) 2023 Kendall Tauser
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+---
+
+name: Ansible CI
+on: 
+  workflow_call:
+    inputs:
+      EXTRA_COLLECTIONS:
+        description: Additional collections (in a space separated list) that should be installed.
+        default: ""
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    if: "!contains(inputs.CI_SKIP, '/lint/')"
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+    - name: Install Ansible-Lint
+      run: pip3 install ansible-lint ansible-core
+    - name: Install collections
+      run: ansible-galaxy collection install community.general ansible.posix ${{ inputs.EXTRA_COLLECTIONS }}
+    - name: Lint
+      run: ansible-lint
