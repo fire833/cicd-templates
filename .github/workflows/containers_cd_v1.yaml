@@ -24,7 +24,12 @@ on:
       APP_NAME:
         description: Specify the name of your application within the repo to run CI against.
         default: ""
-        required: false
+        required: true
+        type: string
+      VERSION:
+        description: Specify the version of the container to push.
+        default: ""
+        required: true
         type: string
       DOCKERFILE_PATH:
         description: Specify the path to the Dockerfile to build and publish.
@@ -52,15 +57,15 @@ jobs:
       with:
         containerfiles: ${{ inputs.DOCKERFILE_PATH }}
         context: ${{ inputs.DOCKERFILE_CONTEXT }}
-        image: ghcr.io/fire833/${{ inputs.APP_NAME }}
-        tags: latest v${{ github.ref_name }}
+        image: ghcr.io/${{ github.repository_owner }}/${{ inputs.APP_NAME }}
+        tags: latest ${{ inputs.VERSION }}
         layers: true
     - name: Push Image
       uses: redhat-actions/push-to-registry@v2.7
       with:
-        registry: ghcr.io
-        image: ghcr.io/fire833/${{ inputs.APP_NAME }}
-        tags: latest v${{ github.ref_name }}
+        registry: ghcr.io/${{ github.repository_owner }}
+        image: ${{ inputs.APP_NAME }}
+        tags: latest ${{ inputs.VERSION }}
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
         tls-verify: true
