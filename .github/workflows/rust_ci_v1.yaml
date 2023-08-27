@@ -50,7 +50,7 @@ jobs:
     - name: Set Directory
       if: ${{ inputs.APP_DIR != '' }}
       run: cd ${{ inputs.APP_DIR }}
-    - run: cargo run
+    - run: cargo build --bins
 
   unit-test:
     name: unit-test
