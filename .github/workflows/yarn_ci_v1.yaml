@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(inputs.CI_SKIP, '/build/')"
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-node@v3
       with:
         node-version: 18
@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(inputs.CI_SKIP, '/unit-test/')"
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-node@v3
       with:
         node-version: 18
