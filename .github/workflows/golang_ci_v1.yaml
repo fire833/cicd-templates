@@ -54,7 +54,7 @@ jobs:
       if: ${{ inputs.APP_DIR != '' }}
       run: cd ${{ inputs.APP_DIR }}
     - name: Build Binary
-      uses: magefile/mage-action@v2
+      uses: magefile/mage-action@v3
       with:
         version: latest
         args: build${{ inputs.APP_NAME }}
