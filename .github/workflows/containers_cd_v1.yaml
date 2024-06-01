@@ -53,7 +53,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build Image
-      uses: redhat-actions/buildah-build@v2.12
+      uses: redhat-actions/buildah-build@v2.13
       with:
         containerfiles: ${{ inputs.DOCKERFILE_PATH }}
         context: ${{ inputs.DOCKERFILE_CONTEXT }}
