@@ -26,6 +26,11 @@ on:
         default: ""
         required: false
         type: string
+      RUNNER:
+        description: Specify the tag for the runners on which this workflow should run.
+        default: ubuntu-latest
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -33,7 +38,7 @@ permissions:
 jobs:
   lint:
     name: lint
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.RUNNER }}
     if: "!contains(inputs.CI_SKIP, '/lint/')"
     steps:
     - uses: actions/checkout@v4

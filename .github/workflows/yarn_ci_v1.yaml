@@ -26,6 +26,11 @@ on:
         default: ""
         required: false
         type: string
+      RUNNER:
+        description: Specify the tag for the runners on which this workflow should run.
+        default: ubuntu-latest
+        required: false
+        type: string
 
 permissions:
   contents: read
