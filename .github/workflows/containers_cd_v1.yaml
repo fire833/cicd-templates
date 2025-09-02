@@ -56,7 +56,7 @@ jobs:
     name: build
     runs-on: ${{ inputs.RUNNER }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Build Image
       uses: redhat-actions/buildah-build@v2.13
       with:
