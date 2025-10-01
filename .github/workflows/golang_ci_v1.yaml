@@ -52,7 +52,7 @@ jobs:
     if: "!contains(inputs.CI_SKIP, '/build/')"
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/setup-go@v5
+    - uses: actions/setup-go@v6
       with:
         go-version: stable
     - name: Set Directory
@@ -70,7 +70,7 @@ jobs:
     if: "!contains(inputs.CI_SKIP, '/unit-test/')"
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/setup-go@v5
+    - uses: actions/setup-go@v6
       with:
         go-version: stable
     - name: Set Directory
@@ -85,7 +85,7 @@ jobs:
     if: "!contains(inputs.CI_SKIP, '/lint/')"
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/setup-go@v5
+    - uses: actions/setup-go@v6
       with:
         go-version: stable
     - name: Set Directory
@@ -102,7 +102,7 @@ jobs:
     if: "!contains(inputs.CI_SKIP, '/vet/')"
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/setup-go@v5
+    - uses: actions/setup-go@v6
       with:
         go-version: stable
     - name: Set Directory
