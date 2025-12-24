@@ -46,7 +46,7 @@ jobs:
     runs-on: ${{ inputs.RUNNER }}
     if: "!contains(inputs.CI_SKIP, '/build/')"
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - uses: actions/cache@v4
       with:
         path: target
@@ -62,7 +62,7 @@ jobs:
     runs-on: ${{ inputs.RUNNER }}
     if: "!contains(inputs.CI_SKIP, '/unit-test/')"
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - uses: actions/cache@v4
       with:
         path: target
@@ -78,7 +78,7 @@ jobs:
     runs-on: ${{ inputs.RUNNER }}
     if: "!contains(inputs.CI_SKIP, '/lint/')"
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - uses: actions/cache@v4
       with:
         path: target
