@@ -57,6 +57,8 @@ jobs:
     runs-on: ${{ inputs.RUNNER }}
     steps:
     - uses: actions/checkout@v5
+      with:
+        submodules: recursive
     - name: Build Image
       uses: redhat-actions/buildah-build@v2.13
       with:

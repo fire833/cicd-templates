@@ -56,6 +56,8 @@ jobs:
     runs-on: ${{ inputs.runner }}
     steps:
     - uses: actions/checkout@v5
+      with:
+        submodules: recursive
     - uses: actions/setup-go@v6
       with:
         go-version: ${{ inputs.go-version }}
