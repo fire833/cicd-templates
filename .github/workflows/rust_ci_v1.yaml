@@ -47,7 +47,7 @@ jobs:
     if: "!contains(inputs.CI_SKIP, '/build/')"
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/cache@v4
+    - uses: actions/cache@v5
       with:
         path: target
         key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
@@ -63,7 +63,7 @@ jobs:
     if: "!contains(inputs.CI_SKIP, '/unit-test/')"
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/cache@v4
+    - uses: actions/cache@v5
       with:
         path: target
         key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
@@ -79,7 +79,7 @@ jobs:
     if: "!contains(inputs.CI_SKIP, '/lint/')"
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/cache@v4
+    - uses: actions/cache@v5
       with:
         path: target
         key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
