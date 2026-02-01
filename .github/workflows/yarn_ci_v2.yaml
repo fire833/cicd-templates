@@ -1,4 +1,3 @@
-
 # Copyright (C) 2026 Kendall Tauser
 #
 # This program is free software; you can redistribute it and/or modify
@@ -16,9 +15,8 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 ---
-
 name: Yarn Node CI
-on: 
+on:
   workflow_call:
     inputs:
       app-dir:
@@ -50,18 +48,18 @@ jobs:
     name: ci
     runs-on: ${{ inputs.runner }}
     steps:
-    - uses: actions/checkout@v6
-      with:
-        submodules: recursive
-    - uses: actions/setup-node@v6
-      with:
-        node-version: ${{ inputs.node-version }}
-    - name: Set Directory
-      if: ${{ inputs.app-dir != '' }}
-      run: cd ${{ inputs.app-dir }}
-    - name: Build
-      if: "!contains(inputs.ci-skip, '/build/')"
-      run: yarn build
-    - name: Run tests
-      if: "!contains(inputs.ci-skip, '/unit-test/')"
-      run: yarn test
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ inputs.node-version }}
+      - name: Set Directory
+        if: ${{ inputs.app-dir != '' }}
+        run: cd ${{ inputs.app-dir }}
+      - name: Build
+        if: "!contains(inputs.ci-skip, '/build/')"
+        run: yarn build
+      - name: Run tests
+        if: "!contains(inputs.ci-skip, '/unit-test/')"
+        run: yarn test

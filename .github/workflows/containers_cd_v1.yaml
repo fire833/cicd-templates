@@ -1,4 +1,3 @@
-
 # Copyright (C) 2026 Kendall Tauser
 #
 # This program is free software; you can redistribute it and/or modify
@@ -16,9 +15,8 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 ---
-
 name: Containers CD
-on: 
+on:
   workflow_call:
     inputs:
       APP_NAME:
@@ -56,23 +54,23 @@ jobs:
     name: build
     runs-on: ${{ inputs.RUNNER }}
     steps:
-    - uses: actions/checkout@v6
-      with:
-        submodules: recursive
-    - name: Build Image
-      uses: redhat-actions/buildah-build@v2.13
-      with:
-        containerfiles: ${{ inputs.DOCKERFILE_PATH }}
-        context: ${{ inputs.DOCKERFILE_CONTEXT }}
-        image: ghcr.io/${{ github.repository_owner }}/${{ inputs.APP_NAME }}
-        tags: latest ${{ inputs.VERSION }}
-        layers: true
-    - name: Push Image
-      uses: redhat-actions/push-to-registry@v2.8
-      with:
-        registry: ghcr.io/${{ github.repository_owner }}
-        image: ${{ inputs.APP_NAME }}
-        tags: latest ${{ inputs.VERSION }}
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        tls-verify: true
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - name: Build Image
+        uses: redhat-actions/buildah-build@v2.13
+        with:
+          containerfiles: ${{ inputs.DOCKERFILE_PATH }}
+          context: ${{ inputs.DOCKERFILE_CONTEXT }}
+          image: ghcr.io/${{ github.repository_owner }}/${{ inputs.APP_NAME }}
+          tags: latest ${{ inputs.VERSION }}
+          layers: true
+      - name: Push Image
+        uses: redhat-actions/push-to-registry@v2.8
+        with:
+          registry: ghcr.io/${{ github.repository_owner }}
+          image: ${{ inputs.APP_NAME }}
+          tags: latest ${{ inputs.VERSION }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          tls-verify: true

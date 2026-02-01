@@ -1,4 +1,3 @@
-
 # Copyright (C) 2026 Kendall Tauser
 #
 # This program is free software; you can redistribute it and/or modify
@@ -16,9 +15,8 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 ---
-
 name: Golang CI
-on: 
+on:
   workflow_call:
     inputs:
       app-name:
@@ -55,30 +53,30 @@ jobs:
     name: ci
     runs-on: ${{ inputs.runner }}
     steps:
-    - uses: actions/checkout@v6
-      with:
-        submodules: recursive
-    - uses: actions/setup-go@v6
-      with:
-        go-version: ${{ inputs.go-version }}
-    - name: Set Directory
-      if: ${{ inputs.app-dir != '' }}
-      run: cd ${{ inputs.app-dir }}
-    - name: Build
-      if: "!contains(inputs.ci-skip, '/build/')"
-      uses: magefile/mage-action@v3
-      with:
-        version: latest
-        args: build${{ inputs.app-name }}
-    - name: Run tests
-      if: "!contains(inputs.ci-skip, '/unit-test/')"
-      run: if [ "$CGO_ENABLED" == "1" ]; then go test -v -cover -race ./...; else go test -v -cover ./...; fi
-    - name: Install linter
-      if: "!contains(inputs.ci-skip, '/lint/')"
-      run: go install mvdan.cc/gofumpt@latest
-    - name: Lint
-      if: "!contains(inputs.ci-skip, '/lint/')"
-      run: test -z "$(gofumpt -d -e $(git ls-files '*.go'))"
-    - name: Vet
-      if: "!contains(inputs.ci-skip, '/vet/')"
-      run: go vet -v ./...
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ inputs.go-version }}
+      - name: Set Directory
+        if: ${{ inputs.app-dir != '' }}
+        run: cd ${{ inputs.app-dir }}
+      - name: Build
+        if: "!contains(inputs.ci-skip, '/build/')"
+        uses: magefile/mage-action@v3
+        with:
+          version: latest
+          args: build${{ inputs.app-name }}
+      - name: Run tests
+        if: "!contains(inputs.ci-skip, '/unit-test/')"
+        run: if [ "$CGO_ENABLED" == "1" ]; then go test -v -cover -race ./...; else go test -v -cover ./...; fi
+      - name: Install linter
+        if: "!contains(inputs.ci-skip, '/lint/')"
+        run: go install mvdan.cc/gofumpt@latest
+      - name: Lint
+        if: "!contains(inputs.ci-skip, '/lint/')"
+        run: test -z "$(gofumpt -d -e $(git ls-files '*.go'))"
+      - name: Vet
+        if: "!contains(inputs.ci-skip, '/vet/')"
+        run: go vet -v ./...

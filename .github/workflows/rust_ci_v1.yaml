@@ -1,4 +1,3 @@
-
 # Copyright (C) 2026 Kendall Tauser
 #
 # This program is free software; you can redistribute it and/or modify
@@ -16,9 +15,8 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 ---
-
 name: Rust CI
-on: 
+on:
   workflow_call:
     inputs:
       APP_DIR:
@@ -46,46 +44,46 @@ jobs:
     runs-on: ${{ inputs.RUNNER }}
     if: "!contains(inputs.CI_SKIP, '/build/')"
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions/cache@v5
-      with:
-        path: target
-        key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
-        restore-keys: ${{ runner.os }}-rust-
-    - name: Set Directory
-      if: ${{ inputs.APP_DIR != '' }}
-      run: cd ${{ inputs.APP_DIR }}
-    - run: cargo build --bins
+      - uses: actions/checkout@v6
+      - uses: actions/cache@v5
+        with:
+          path: target
+          key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-rust-
+      - name: Set Directory
+        if: ${{ inputs.APP_DIR != '' }}
+        run: cd ${{ inputs.APP_DIR }}
+      - run: cargo build --bins
 
   unit-test:
     name: unit-test
     runs-on: ${{ inputs.RUNNER }}
     if: "!contains(inputs.CI_SKIP, '/unit-test/')"
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions/cache@v5
-      with:
-        path: target
-        key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
-        restore-keys: ${{ runner.os }}-rust-
-    - name: Set Directory
-      if: ${{ inputs.APP_DIR != '' }}
-      run: cd ${{ inputs.APP_DIR }}
-    - run: cargo test
+      - uses: actions/checkout@v6
+      - uses: actions/cache@v5
+        with:
+          path: target
+          key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-rust-
+      - name: Set Directory
+        if: ${{ inputs.APP_DIR != '' }}
+        run: cd ${{ inputs.APP_DIR }}
+      - run: cargo test
 
   lint:
     name: lint
     runs-on: ${{ inputs.RUNNER }}
     if: "!contains(inputs.CI_SKIP, '/lint/')"
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions/cache@v5
-      with:
-        path: target
-        key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
-        restore-keys: ${{ runner.os }}-rust-
-    - name: Set Directory
-      if: ${{ inputs.APP_DIR != '' }}
-      run: cd ${{ inputs.APP_DIR }}
-    - name: Lint
-      run: test -z "$(cargo fmt --check)"
+      - uses: actions/checkout@v6
+      - uses: actions/cache@v5
+        with:
+          path: target
+          key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-rust-
+      - name: Set Directory
+        if: ${{ inputs.APP_DIR != '' }}
+        run: cd ${{ inputs.APP_DIR }}
+      - name: Lint
+        run: test -z "$(cargo fmt --check)"
