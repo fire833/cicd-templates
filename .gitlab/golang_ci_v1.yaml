@@ -1,0 +1,36 @@
+# Copyright (C) 2026 Kendall Tauser
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+.setup-golang:
+  image: $IMAGE
+  before_script:
+    - cd $APP_DIRECTORY
+
+.lint:golang:
+  extends: .setup-golang
+  script:
+    - test -z "$(gofumpt -d -e $(git ls-files '*.go'))"
+    - go vet ./...
+
+.test:golang:
+  extends: .setup-golang
+  script:
+    - if [ "$CGO_ENABLED" == "1" ]; then go test -v -cover -race ./...; else go test -v -cover ./...; fi
+
+.build:golang:
+  extends: .setup-golang
+  script:
+    - mage build${APP_NAME}
