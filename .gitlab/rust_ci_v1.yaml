@@ -17,4 +17,20 @@
 .setup-rust:
   image: $IMAGE
   before_script:
-    - cd $APP_DIRECTORY
+    - "[ ! -z $APP_DIRECTORY ] && cd $APP_DIRECTORY"
+
+.lint:rust:
+  extends: .setup-rust
+  script:
+    - cargo check --verbose
+    - cargo fmt --check
+
+.build:rust:
+  extends: .setup:rust
+  script:
+    - cargo build --all
+
+.test:rust:
+  extends: .setup:rust
+  script:
+    - cargo test

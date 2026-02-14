@@ -17,7 +17,7 @@
 .setup-golang:
   image: $IMAGE
   before_script:
-    - cd $APP_DIRECTORY
+    - "[ ! -z $APP_DIRECTORY ] && cd $APP_DIRECTORY"
 
 .lint:golang:
   extends: .setup-golang
